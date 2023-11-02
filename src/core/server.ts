@@ -2,7 +2,7 @@ import { type Server, type IncomingMessage, type ServerResponse } from 'node:htt
 import Fastify, { type FastifyInstance } from 'fastify'
 import { IObjectKeys } from 'src/interfaces'
 import { getHandlers, postHandlers } from 'src/handlers'
-import { environment } from './config'
+import { environment, getConfigValue } from './config'
 
 const envToLogger: IObjectKeys = {
   development: {
@@ -25,19 +25,14 @@ const server: FastifyInstance<Server, IncomingMessage, ServerResponse> = Fastify
 getHandlers.map(({ url, options, handler }) => server.get(url, options, handler))
 postHandlers.map(({ url, options, handler }) => server.post(url, options, handler))
 
-// server.get('/ping', options, indexHandler)
-
 export const start = async () => {
+  const port = getConfigValue('SERVER_PORT')
+  const host = getConfigValue('SERVER_HOST')
+
   try {
-    await server.listen({ port: 3000, host: 'localhost' })
-
-    const address = server.server.address()
-    const port = typeof address === 'string' ? address : address?.port
-
-    server.log.info(`Server is listening on port ${port}`)
+    await server.listen({ port: Number.parseInt(port, 10), host })
   } catch (error) {
     server.log.error(error)
-    // throw new Error('Something went wrong')
     process.exit(1)
   }
 }
