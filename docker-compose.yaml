@@ -1,0 +1,16 @@
+version: '3'
+services:
+  mongo:
+    image: mongo:4
+    expose:
+      - 27017
+    ports:
+      - 27017:27017
+    volumes:
+      - ./data/db:/data/db
+    # networks:
+    #   - mongo_server
+
+# networks:
+#   mongo_server:
+#     name: predictor-net
