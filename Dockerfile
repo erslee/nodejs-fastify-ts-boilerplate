@@ -3,11 +3,8 @@
 # Run bash:
 # docker run -it project:1.0 /bin/sh
 
-# Run "production close" container
-# docker run -p 8080:80 project:1.0 node index.js
-
-# docker build -t us-central1-docker.pkg.dev/theta-inkwell-383512/quickstart-docker-repo/trader:1.0 -f Dockerfile .
-# docker push us-central1-docker.pkg.dev/theta-inkwell-383512/quickstart-docker-repo/trader:1.0
+# Run container
+# docker run -p 8080:80 project:1.0 node dist/index.js
 
 
 FROM node:20-alpine
